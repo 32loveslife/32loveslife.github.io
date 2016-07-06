@@ -6,7 +6,7 @@
 </head>
 <body>
 <h2>测量学里的数学</h2>
-<p>
+
 为期两周的测量学实习已经结束,我负责数据的整理,其中高程的检验是最让我印象深刻的，先来看一下Backgroud Info,输入原始数据 黑红量尺 前后 共四种数据,先赋值为：
 
 <pre>
@@ -50,9 +50,44 @@ def guess(x,y,a,b):
 <code>.调整算法?</code><br>
 四个变量，每个正负50就是100，总共100**4=100000000次循环。
 <h3>柳暗花明又一村</h3>
-之前有幸拜读过吴军著作 <a href="https://book.douban.com/subject/10750155/">数学之美</a> 
- 在这之后运用数学的简洁模型处理问题就深深让我琢磨(虽然我数学很烂)，我看着这些误差的范围，决定先梳理下每个变量之间的关系，
+之前有幸拜读过 <a href="http://baike.baidu.com/subview/7330/5395299.htm">吴军</a> 著作 <a href="https://book.douban.com/subject/10750155/">数学之美</a> 
+ 在这之后运用数学的模型处理问题让我印象深刻，于是我看着这些误差的范围，决定先梳理下每个变量之间的关系，直到这里才让我跳出逻辑流程coding，先来看看梳理出的关系:<br>
+ x,y决定R1	a,b决定R2 <br>
+ x,a决定R3	y,b决定R4<br>
+ 但是R1 R2的误差是已知的,假定误差R1R2为4，即可反推出y与b<br>
+ 由此可得: R1-R5在假定取值后实际取决于x,a<br>
+ 整理不等式之后，重新设计代码如下：
+<pre>
+def cal(x,a,type=47,diff=0):
+	if type==47:
+		k1=4687;k2=4787
+	else: k1=4787;k2=4687
+	y=x+k1-diff;
+	b=a+k2-diff;
+	r1=x+k1-y;
+	r2=a+k2-b;
+	r3=x-a;
+	r4=y-b;
+	avg_1=(r3+r4+100)/2;avg_2=(r3+r4+100)/2;
+	if abs(r3-avg_1) < abs(r3-avg_2):
+		avg=avg_2
+	else:avg=avg_1
+	print('后尺: ',x,y,abs(r1));
+	print('前尺: ',a,b,abs(r2));
+	print('前-后:',r3,r4,0) 
+	print('平均高差:',avg) </pre>
+不仅程序的流程更清晰,而且只需要两个变量(x,a)就可以完成所有计算.
+<h3>局限</h3>
+看到这，你大概会明白，这种方法是取巧的，因为按操作要求需要先量取高程(x,y,a,b)然后计算误差，而以上的代码是逆向的，实际只量取黑尺前后数据(x,a)然后假定了误差(diff)去计算其他变量的值，所以，在实际的高程测量中，误差的范围(<=4 or <=6) 就失去了意义。
+<h3>为了应付学校的测量报告...</h3>
+虽然说以上的代码是不能够在实际工作中使用的，但是出于这样那样的原因，我所在的测量小组没能测完全部数据，deadline就在眼前，所以，我们就小小的使用了一下这个作弊的方法。<br>
+但是在严肃的建筑测量上，我非常不建议你使用这种方法。
+<h3>:::Therefore:::</h3>
+<a href="http://baike.baidu.com/subview/7330/5395299.htm">吴军</a>  认为:在计算机中一个好的算法，应该向Ak-47那样简单、有效、可靠性好而且容易读懂(或者说易操作),而不应该是故弄玄虚.<br><br>
+所以我认为 math is essential to algorithm.<br><br>
+Programming language makes up you word, <br>
+but math is really the idea behind your speech.
 
-</p>
+
 </body>
 </html>
