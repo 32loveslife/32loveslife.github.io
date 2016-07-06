@@ -1,24 +1,58 @@
-﻿<html>
+<html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link href="main.css" rel="stylesheet" type="text/css">
-
-<title>Jery</title>
+<title>测量学里的数学</title>
 </head>
-
 <body>
+<h2>测量学里的数学</h2>
+<p>
+为期两周的测量学实习已经结束,我负责数据的整理,其中高程的检验是最让我印象深刻的，先来看一下Backgroud Info,输入原始数据 黑红量尺 前后 共四种数据,先赋值为：
 
+<pre>
+            黑色量尺                红色量尺
+    后部  Backward_black  (x)     Backward_red   (y)
+               
+    前部  Forward_black   (a)     Forward_red    (b)
+</pre>
+由这四种数据运算得出五种数据及其分别的取值范围分别为：
+<pre>
+R1 = Backward_black - Backward_red + k      abs(R1)<=4
+R2 = Forward_black  - Forward_red  + k      abs(R2)<=4
+R3 = Backward_black - Forward_black
+R4 = Backward_red   - Forward_red
+R5 = R3 - [(R4+100) or (R4-100)]            abs(R5)<=6
+</pre>
+<h3>反射式想到的程式路径</h3>
+输入原始数据，然后运算得出R1-R5的值，分别对照取值范围检验是否合格,伪代码如下：
+<pre>
+def check(x,y,a,b):
+	if R1 and R2 And R5:
+		return True
+	else: return False
+</pre>
+<h3>这也太简单了吧 ?!</h3>
+这个简单的检验程式写完了，转念一想，出去测量一次的成本(时间)很高的，如果误差(难免)太大，岂不是要重测?
+所以要不就加一个数据拟合的小feature吧，不用太复杂，xyab分别调整正负50mm就可以了，
+<pre>
+def guess(x,y,a,b):
+	for x:
+	for y:
+	for a:
+	for b:
+		if check(x,y,a,b): return (x,y,a,b)
+		else:return Flase
+</pre>
+<h3>循环的噩梦</h3>
+拟合出问题了，即便是四个数据正负50调整，Python的效率也不容乐观，怎么解决呢？<br>
+<code>.用C++?</code><br>
+<code>.用pypy?</code><br>
+<code>.调整算法?</code><br>
+四个变量，每个正负50就是100，总共100**4=100000000次循环。
+<h3>柳暗花明又一村</h3>
+之前有幸拜读过吴军著作 <a href="https://book.douban.com/subject/10750155/">数学之美</a> 
+ 在这之后运用数学的简洁模型处理问题就深深让我琢磨(虽然我数学很烂)，我看着这些误差的范围，决定先梳理下每个变量之间的关系，
 
-
-<h2>Mathmatics is the universal model</h2>
-<p>这是段落</p>
-<h3>这是小段落</h3>
-<PRE>
-def f(x,y):
-     if x>y:return x
-     else: return y
-</PRE>
-
-
+</p>
 </body>
 </html>
