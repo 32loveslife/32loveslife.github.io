@@ -1,0 +1,190 @@
+﻿<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link href="main.css" rel="stylesheet" type="text/css">
+<title>Ubuntu 16.04 LTS</title>
+</head>
+<body>
+<h2>Ubuntu 16.04 LTS</h2>
+更新ubuntu 16.04 之后的调整<br>
+Learn what's new? <br>
+<a href="http://www.cnbeta.com/articles/494731.htm">CnBeta-Ubuntu 16.04 LTS正式发布 来看看有哪些更新</a><br>
+<a href="https://www.sysgeek.cn/ubuntu-16-04-features/">系统极客-Ubuntu 16.04 LTS值得关注的新特性和改进盘点</a>
+<h3>换源</h3>
+deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse <br>
+deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse <br>
+deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse <br>
+deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse <br>
+##测试版源
+<br>
+deb http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe multiverse <br>
+# 源码
+<br>
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse <br>
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse <br>
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse <br>
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse <br>
+##测试版源
+<br>
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe multiverse <br>
+# Canonical 合作伙伴和附加
+<br>
+deb http://archive.canonical.com/ubuntu/ xenial partner <br>
+deb http://extras.ubuntu.com/ubuntu/ xenial main <br>
+<h3>Remove STH.</h3>
+remove libreoffice:<br>
+sudo apt-get remove libreoffice-common <br>
+remove amazon:<br>
+sudo apt-get remove unity-webapps-common <br>
+sudo apt-get remove thunderbird totem rhythmbox empathy brasero simple-scan gnome-mahjongg aisleriot gnome-mines cheese transmission-common gnome-orca webbrowser-app gnome-sudoku  landscape-client-ui-install <br>
+sudo apt-get remove onboard deja-dup <br>
+
+<h3>Optional</h3>
+4.安装Vim<br>
+
+居然默认没有集成Vim神器，只能手动安装了。<br>
+
+sudo apt-get install vim<br>
+ 
+
+5.设置时间使用UTC<br>
+
+sudo vim /etc/default/rcS<br>
+将UTC=no改为UTC=yes<br>
+
+6.安装Chrome<br>
+
+到 https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb 下载最新的安装文件。<br>
+
+然后<br>
+
+sudo apt-get install libappindicator1 libindicator7<br>
+sudo dpkg -i google-chrome-stable_current_amd64.deb<br>
+sudo apt-get -f install<br>
+这样以后就可以apt安装和更新chrome浏览器了。<br>
+
+7.安装搜狗输入法<br>
+
+vim /etc/apt/sources.list.d/ubuntukylin.list文件，加入ubuntu kylin的apt源<br>
+
+deb http://archive.ubuntukylin.com:10006/ubuntukylin trusty main<br>
+然后<br>
+
+sudo apt-get update<br>
+sudo apt-get install sogoupinyin<br>
+这样就可以apt安装和更新搜狗输入法了。<br>
+
+8.安装WPS Office<br>
+
+目前MS一直不出Linux版的Office，只能凑合着用WPS了<br>
+
+sudo apt-get install wps-office<br>
+9.安装Oracle Java<br>
+
+sudo add-apt-repository ppa:webupd8team/java<br>
+sudo apt-get update<br>
+sudo apt-get install oracle-java8-installer<br>
+由于系统自带的是OpenJDK，卸载OpenJDK之后会带有残留，导致运行
+
+java -version
+时第一行不是java的版本号，会是Picked up JAVA_TOOL_OPTIONS: -javaagent:/usr/share/java/jayatanaag.jar这个提示，导致很多检测java版本号的脚本会运行出错，因此需要手动清除残留。
+<br>
+sudo rm /usr/share/upstart/sessions/jayatana.conf<br>
+删除/usr/share/upstart/sessions/jayatana.conf文件，重启之后再运行java -version就不会再有Picked up JAVA_TOOL_OPTIONS: -javaagent:/usr/share/java/jayatanaag.jar提示了。<br>
+
+10.安装Sublime Text 3<br>
+
+sudo add-apt-repository ppa:webupd8team/sublime-text-3<br>
+sudo apt-get update<br>
+sudo apt-get install sublime-text<br>
+ 
+
+11.安装经典菜单指示器<br>
+
+sudo add-apt-repository ppa:diesch/testing<br>
+sudo apt-get update<br>
+sudo apt-get install classicmenu-indicator<br>
+ 
+
+12.安装系统指示器SysPeek<br>
+
+add-apt-repository ppa:nilarimogard/webupd8<br>
+sudo apt-get update<br>
+sudo apt-get install syspeek<br>
+ 
+
+13.自定义DHCP网络的DNS Server IP地址<br>
+
+sudo vim /etc/dhcp/dhclient.conf文件，在第21行#prepend domain-name-servers 127.0.0.1;下一行添加如下2行使用aliyun和114的DNS<br>
+
+prepend domain-name-servers 114.114.114.114;<br>
+prepend domain-name-servers 223.5.5.5;<br>
+这样可以优先使用aliyun的dns，次要使用114的DNS。<br>
+
+14.安装git和vpnc<br>
+
+git和vpn大家都懂的，程序员的好工具。<br>
+
+sudo apt-get install vpnc git<br>
+15.安装axel<br>
+
+axel是Linux命令行界面的多线程下载工具，比wget的好处就是可以指定多个线程同时在命令行终端里下载文件。<br>
+sudo apt-get install axel<br>
+ 
+
+安装之后，就可以代替wget用多线程下载了。<br>
+
+16.安装openssh-server<br>
+
+sudo apt-get install openssh-server<br>
+安装之后，就可以在Win下用ssh工具远程登陆了，当然也多了一个安全隐患，如果不想远程登陆本机的话，可以不装openssh-server。<br>
+
+17.安装CMake和Qt Creator<br>
+
+CMake和Qt Creator是Linux下开发C++程序的神器，Ubuntu 15.04已经集成了最新版的Qt Creator （3.1.1）。<br>
+
+sudo apt-get install cmake qtcreator<br>
+ 
+
+18.安装ExFat文件系统驱动<br>
+
+Ubuntu默认不支持exFat文件系统的挂载，需要手动安装exfat的支持<br>
+
+sudo apt-get install exfat-fuse<br>
+ 
+
+装上exfat-fuse之后就可以挂载exfat分区的磁盘了。<br>
+
+19.安装lnav<br>
+
+lnav工具是在终端界面看日志的神器<br>
+
+sudo apt-get install lnav<br>
+ 
+
+装上之后在终端里就可以用lnav彩色显示日志了。<br>
+
+20.安装unrar<br>
+
+系统默认不带解压缩rar文件的功能，手动安装unrar程序<br>
+
+sudo apt-get install unrar<br>
+装上之后就可以用命令解压缩rar文件了。<br>
+
+使用如下命令解压缩文件到当前目录。<br>
+
+unrar x test.rar<br>
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
